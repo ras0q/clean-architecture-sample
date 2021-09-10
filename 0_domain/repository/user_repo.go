@@ -1,4 +1,4 @@
-package usecase
+package repository
 
 import (
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"

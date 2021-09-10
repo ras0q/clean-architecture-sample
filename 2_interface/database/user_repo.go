@@ -2,7 +2,7 @@ package database
 
 import (
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	usecase "github.com/Ras96/clean-architecture-sample/1_usecase"
+	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
 	"github.com/gofrs/uuid"
 )
 
@@ -10,7 +10,7 @@ type UserRepository struct {
 	SQLHandler
 }
 
-func NewUserRepository(sql SQLHandler) usecase.UserRepository {
+func NewUserRepository(sql SQLHandler) repository.UserRepository {
 	return &UserRepository{SQLHandler: sql}
 }
 
@@ -33,7 +33,7 @@ func (ur *UserRepository) FindByID(id uuid.UUID) (*model.User, error) {
 	return &user, nil
 }
 
-func (ur *UserRepository) Register(user *usecase.RegisteredUser) error {
+func (ur *UserRepository) Register(user *repository.RegisteredUser) error {
 	if err := ur.Create(user).Error(); err != nil {
 		return err
 	}

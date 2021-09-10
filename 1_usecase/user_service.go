@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
 	"github.com/gofrs/uuid"
 )
 
@@ -11,14 +12,14 @@ import (
 type UserService interface {
 	GetAll() ([]*model.User, error)
 	GetByID(id uuid.UUID) (*model.User, error)
-	Register(user *RegisteredUser) error //TODO:model.Userとは別の構造体を用意するべき
+	Register(user *repository.RegisteredUser) error
 }
 
 type userSerUserService struct {
-	repo UserRepository
+	repo repository.UserRepository
 }
 
-func NewUserService(repo UserRepository) UserService {
+func NewUserService(repo repository.UserRepository) UserService {
 	return &userSerUserService{repo}
 }
 
@@ -44,7 +45,7 @@ func (uc *userSerUserService) GetByID(id uuid.UUID) (*model.User, error) {
 }
 
 // POST /users/
-func (uc *userSerUserService) Register(user *RegisteredUser) error {
+func (uc *userSerUserService) Register(user *repository.RegisteredUser) error {
 	if err := uc.repo.Register(user); err != nil {
 		return fmt.Errorf("failed to register user: %w", err)
 	}
