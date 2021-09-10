@@ -4,12 +4,16 @@ import (
 	"net/http"
 )
 
-type PingHandler struct{}
-
-func NewPingHandler() *PingHandler {
-	return &PingHandler{}
+type PingHandler interface {
+	Ping(c Context) error
 }
 
-func (h *PingHandler) Ping(c Context) error {
+type pingHandler struct{}
+
+func NewPingHandler() PingHandler {
+	return &pingHandler{}
+}
+
+func (h *pingHandler) Ping(c Context) error {
 	return c.String(http.StatusOK, "pong!")
 }

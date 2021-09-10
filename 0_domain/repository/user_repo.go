@@ -5,8 +5,14 @@ import (
 	"github.com/gofrs/uuid"
 )
 
+type RegisteredUser struct {
+	ID    uuid.UUID
+	Name  string
+	Email string
+}
+
 type UserRepository interface {
 	FindAll() ([]*model.User, error)
 	FindByID(id uuid.UUID) (*model.User, error)
-	Register(user *model.User) error
+	Register(user *RegisteredUser) error
 }

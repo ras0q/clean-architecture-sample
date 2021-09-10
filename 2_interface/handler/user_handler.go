@@ -4,45 +4,50 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
+	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	usecase "github.com/Ras96/clean-architecture-sample/1_usecase"
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
 
-type User struct {
+type UserHandler interface {
+	GetAll(c Context) error
+	GetByID(c Context) error
+	Register(c Context) error
+}
+
+type userHandler struct {
+	uc usecase.UserService
+}
+
+func NewUserHandler(uc usecase.UserService) UserHandler {
+	return &userHandler{uc}
+}
+
+type userRes struct {
 	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name"`
 }
 
-type UserDetail struct {
-	User
+type userDetailRes struct {
+	userRes
 	Email string `json:"email"`
 }
 
-type RegisterReq struct {
+type registerReq struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
-type UserHandler struct {
-	uc service.UserService
-}
-
-//TODO: interface返すためにはinfrastructure層のserviceをinterfaceで定義しておく必要がありそう
-func NewUserHandler(uc service.UserService) *UserHandler {
-	return &UserHandler{uc}
-}
-
-func (h *UserHandler) GetAll(c Context) error {
+func (h *userHandler) GetAll(c Context) error {
 	users, err := h.uc.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	res := make([]*User, 0, len(users))
+	res := make([]*userRes, 0, len(users))
 	for _, v := range users {
-		res = append(res, &User{
+		res = append(res, &userRes{
 			ID:   v.ID,
 			Name: v.Name,
 		})
@@ -51,7 +56,7 @@ func (h *UserHandler) GetAll(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) GetByID(c Context) error {
+func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
 	if err != nil {
@@ -65,8 +70,8 @@ func (h *UserHandler) GetByID(c Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	res := &UserDetail{
-		User: User{
+	res := &userDetailRes{
+		userRes: userRes{
 			ID:   user.ID,
 			Name: user.Name,
 		},
@@ -76,13 +81,14 @@ func (h *UserHandler) GetByID(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) Register(c Context) error {
-	req := RegisterReq{}
+func (h *userHandler) Register(c Context) error {
+	req := registerReq{}
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	user := model.User{
+	user := repository.RegisteredUser{
+		ID:    uuid.Must(uuid.NewV4()),
 		Name:  req.Name,
 		Email: req.Email,
 	}

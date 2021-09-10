@@ -5,12 +5,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type Context struct {
+type context struct {
 	echo.Context
 }
 
 func f(next func(handler.Context) error) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		return next(Context{c})
+		return next(context{c})
 	}
 }
