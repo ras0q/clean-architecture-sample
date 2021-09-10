@@ -1,10 +1,13 @@
 package handler
 
 type API struct {
-	Ping *PingHandler
-	User *UserHandler
+	Ping PingHandler
+	User UserHandler
 }
 
-func NewAPI(user *UserHandler) API {
-	return API{User: user}
+func NewAPI(ping PingHandler, user UserHandler) API {
+	return API{
+		Ping: ping,
+		User: user,
+	}
 }

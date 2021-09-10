@@ -11,6 +11,20 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserHandler interface {
+	GetAll(c echo.Context) error
+	GetByID(c echo.Context) error
+	Register(c echo.Context) error
+}
+
+type userHandler struct {
+	uc usecase.UserService
+}
+
+func NewUserHandler(uc usecase.UserService) UserHandler {
+	return &userHandler{uc}
+}
+
 type User struct {
 	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name"`
@@ -26,16 +40,7 @@ type RegisterReq struct {
 	Email string `json:"email"`
 }
 
-type UserHandler struct {
-	uc usecase.UserService
-}
-
-//TODO: interface返すためにはinfrastructure層のserviceをinterfaceで定義しておく必要がありそう
-func NewUserHandler(uc usecase.UserService) *UserHandler {
-	return &UserHandler{uc}
-}
-
-func (h *UserHandler) GetAll(c echo.Context) error {
+func (h *userHandler) GetAll(c echo.Context) error {
 	users, err := h.uc.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -52,7 +57,7 @@ func (h *UserHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) GetByID(c echo.Context) error {
+func (h *userHandler) GetByID(c echo.Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
 	if err != nil {
@@ -77,7 +82,7 @@ func (h *UserHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) Register(c echo.Context) error {
+func (h *userHandler) Register(c echo.Context) error {
 	req := RegisterReq{}
 	if err := c.Bind(&req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())

@@ -19,7 +19,7 @@ var (
 )
 
 func InjectAPIServer() (handler.API, error) {
-	wire.Build(apiSet, sqlSet, userSet)
+	wire.Build(apiSet, sqlSet, pingSet, userSet)
 
 	return handler.API{}, nil
 }

@@ -6,12 +6,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type PingHandler struct{}
-
-func NewPingHandler() *PingHandler {
-	return &PingHandler{}
+type PingHandler interface {
+	Ping(c echo.Context) error
 }
 
-func (h *PingHandler) Ping(c echo.Context) error {
+type pingHandler struct{}
+
+func NewPingHandler() PingHandler {
+	return &pingHandler{}
+}
+
+func (h *pingHandler) Ping(c echo.Context) error {
 	return c.String(http.StatusOK, "pong!")
 }
