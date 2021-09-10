@@ -6,16 +6,16 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-type UserRepository struct {
+type userRepository struct {
 	SQLHandler
 }
 
 func NewUserRepository(sql SQLHandler) repository.UserRepository {
-	return &UserRepository{SQLHandler: sql}
+	return &userRepository{SQLHandler: sql}
 }
 
-// UserRepository(構造体)がrepository.UserRepository(インターフェース)を満たすためにメソッドを定義する
-func (ur *UserRepository) FindAll() ([]*model.User, error) {
+// userRepository(構造体)がrepository.UserRepository(インターフェース)を満たすためにメソッドを定義する
+func (ur *userRepository) FindAll() ([]*model.User, error) {
 	users := make([]*model.User, 0)
 	if err := ur.Find(&users).Error(); err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (ur *UserRepository) FindAll() ([]*model.User, error) {
 	return users, nil
 }
 
-func (ur *UserRepository) FindByID(id uuid.UUID) (*model.User, error) {
+func (ur *userRepository) FindByID(id uuid.UUID) (*model.User, error) {
 	user := model.User{ID: id}
 	if err := ur.First(&user).Error(); err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (ur *UserRepository) FindByID(id uuid.UUID) (*model.User, error) {
 	return &user, nil
 }
 
-func (ur *UserRepository) Register(user *repository.RegisteredUser) error {
+func (ur *userRepository) Register(user *repository.RegisteredUser) error {
 	if err := ur.Create(user).Error(); err != nil {
 		return err
 	}

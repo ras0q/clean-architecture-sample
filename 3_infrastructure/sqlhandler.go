@@ -18,7 +18,7 @@ type sqlConfig struct {
 	db   string
 }
 
-type SQLHandler struct {
+type sqlHandler struct {
 	conn *gorm.DB
 }
 
@@ -53,28 +53,28 @@ func NewSQLHandler() database.SQLHandler {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
 
-	return &SQLHandler{conn}
+	return &sqlHandler{conn}
 }
 
 // SQLHandler(構造体)がSQLHandler(インターフェース)を満たすためにメソッドを定義する
-func (hl *SQLHandler) Find(out interface{}, where ...interface{}) database.SQLHandler {
+func (hl *sqlHandler) Find(out interface{}, where ...interface{}) database.SQLHandler {
 	db := hl.conn.Find(out, where...)
 
-	return &SQLHandler{conn: db}
+	return &sqlHandler{conn: db}
 }
 
-func (hl *SQLHandler) First(out interface{}, where ...interface{}) database.SQLHandler {
+func (hl *sqlHandler) First(out interface{}, where ...interface{}) database.SQLHandler {
 	db := hl.conn.First(out, where...)
 
-	return &SQLHandler{conn: db}
+	return &sqlHandler{conn: db}
 }
 
-func (hl *SQLHandler) Create(value interface{}) database.SQLHandler {
+func (hl *sqlHandler) Create(value interface{}) database.SQLHandler {
 	db := hl.conn.Create(value)
 
-	return &SQLHandler{conn: db}
+	return &sqlHandler{conn: db}
 }
 
-func (hl *SQLHandler) Error() error {
+func (hl *sqlHandler) Error() error {
 	return hl.conn.Error
 }
