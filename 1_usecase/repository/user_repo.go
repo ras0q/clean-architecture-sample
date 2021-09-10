@@ -8,5 +8,5 @@ import (
 type UserRepository interface {
 	FindAll() ([]*model.User, error)
 	FindByID(id uuid.UUID) (*model.User, error)
-	Create(user *model.User) error
+	Register(user *model.User) error
 }

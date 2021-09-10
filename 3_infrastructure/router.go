@@ -23,8 +23,8 @@ func InitRouting() {
 
 	echoAPI := e.Group("/api")
 
-	userAPI := echoAPI.Group("/user")
+	userAPI := echoAPI.Group("/users")
 	userAPI.GET("/", api.User.GetAll)
-	userAPI.POST("/", api.User.Register)
 	userAPI.GET("/:id", api.User.GetByID)
+	userAPI.POST("/", api.User.Register)
 }
