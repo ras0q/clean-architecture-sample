@@ -1,6 +1,7 @@
 package handler
 
 type API struct {
+	Ping *PingHandler
 	User *UserHandler
 }
 

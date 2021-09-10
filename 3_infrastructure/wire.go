@@ -14,6 +14,7 @@ import (
 var (
 	apiSet  = wire.NewSet(handler.NewAPI)
 	sqlSet  = wire.NewSet(NewSQLHandler)
+	pingSet = wire.NewSet(handler.NewPingHandler)
 	userSet = wire.NewSet(repository.NewUserRepository, service.NewUserService, handler.NewUserHandler)
 )
 

@@ -31,13 +31,23 @@ func NewSQLHandler() database.SQLHandler {
 		conf.pass = "pass"
 	}
 	if conf.host = os.Getenv("DB_HOST"); conf.host == "" {
-		conf.host = "localhost"
+		conf.host = "mysql"
 	}
 	if conf.port = os.Getenv("DB_PORT"); conf.port == "" {
 		conf.port = "3306"
 	}
+	if conf.db = os.Getenv("DB_NAME"); conf.db == "" {
+		conf.db = "clean-architecture-sample"
+	}
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", conf.user, conf.pass, conf.host, conf.port, conf.db)
+	dsn := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		conf.user,
+		conf.pass,
+		conf.host,
+		conf.port,
+		conf.db,
+	)
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
