@@ -24,12 +24,12 @@ func InitRouting() {
 	echoAPI := e.Group("/api")
 
 	pingAPI := echoAPI.Group("/ping")
-	pingAPI.GET("", api.Ping.Ping)
+	pingAPI.GET("", f(api.Ping.Ping))
 
 	userAPI := echoAPI.Group("/users")
-	userAPI.GET("", api.User.GetAll)
-	userAPI.GET("/:id", api.User.GetByID)
-	userAPI.POST("", api.User.Register)
+	userAPI.GET("", f(api.User.GetAll))
+	userAPI.GET("/:id", f(api.User.GetByID))
+	userAPI.POST("", f(api.User.Register))
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

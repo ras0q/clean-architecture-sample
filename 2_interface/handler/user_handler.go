@@ -7,7 +7,6 @@ import (
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
 	"github.com/gofrs/uuid"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -35,10 +34,10 @@ func NewUserHandler(uc service.UserService) *UserHandler {
 	return &UserHandler{uc}
 }
 
-func (h *UserHandler) GetAll(c echo.Context) error {
+func (h *UserHandler) GetAll(c Context) error {
 	users, err := h.uc.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	res := make([]*User, 0, len(users))
@@ -52,18 +51,18 @@ func (h *UserHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) GetByID(c echo.Context) error {
+func (h *UserHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error()) // invalid uuid
+		return c.JSON(http.StatusBadRequest, err.Error()) // invalid uuid
 	}
 
 	user, err := h.uc.GetByID(id)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return c.NoContent(http.StatusNotFound)
 	} else if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	res := &UserDetail{
@@ -77,10 +76,10 @@ func (h *UserHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *UserHandler) Register(c echo.Context) error {
+func (h *UserHandler) Register(c Context) error {
 	req := RegisterReq{}
 	if err := c.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	user := model.User{
@@ -88,7 +87,7 @@ func (h *UserHandler) Register(c echo.Context) error {
 		Email: req.Email,
 	}
 	if err := h.uc.Register(&user); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.NoContent(http.StatusCreated)
