@@ -33,7 +33,7 @@ func (ur *UserRepository) FindByID(id uuid.UUID) (*model.User, error) {
 	return &user, nil
 }
 
-func (ur *UserRepository) Register(user *model.User) error {
+func (ur *UserRepository) Register(user *usecase.RegisteredUser) error {
 	if err := ur.Create(user).Error(); err != nil {
 		return err
 	}

@@ -4,8 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/1_usecase"
+	usecase "github.com/Ras96/clean-architecture-sample/1_usecase"
 	"github.com/gofrs/uuid"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -83,7 +82,8 @@ func (h *UserHandler) Register(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	user := model.User{
+	user := usecase.RegisteredUser{
+		ID:    uuid.Must(uuid.NewV4()),
 		Name:  req.Name,
 		Email: req.Email,
 	}

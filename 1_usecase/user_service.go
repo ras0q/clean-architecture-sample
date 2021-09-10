@@ -11,7 +11,7 @@ import (
 type UserService interface {
 	GetAll() ([]*model.User, error)
 	GetByID(id uuid.UUID) (*model.User, error)
-	Register(user *model.User) error //TODO:model.Userとは別の構造体を用意するべき
+	Register(user *RegisteredUser) error //TODO:model.Userとは別の構造体を用意するべき
 }
 
 type userSerUserService struct {
@@ -44,7 +44,7 @@ func (uc *userSerUserService) GetByID(id uuid.UUID) (*model.User, error) {
 }
 
 // POST /users/
-func (uc *userSerUserService) Register(user *model.User) error {
+func (uc *userSerUserService) Register(user *RegisteredUser) error {
 	if err := uc.repo.Register(user); err != nil {
 		return fmt.Errorf("failed to register user: %w", err)
 	}
