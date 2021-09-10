@@ -1,10 +1,9 @@
-package service
+package usecase
 
 import (
 	"fmt"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/gofrs/uuid"
 )
 
@@ -16,10 +15,10 @@ type UserService interface {
 }
 
 type userSerUserService struct {
-	repo repository.UserRepository
+	repo UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) UserService {
+func NewUserService(repo UserRepository) UserService {
 	return &userSerUserService{repo}
 }
 

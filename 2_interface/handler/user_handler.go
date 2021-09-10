@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
+	"github.com/Ras96/clean-architecture-sample/1_usecase"
 	"github.com/gofrs/uuid"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -27,11 +27,11 @@ type RegisterReq struct {
 }
 
 type UserHandler struct {
-	uc service.UserService
+	uc usecase.UserService
 }
 
 //TODO: interface返すためにはinfrastructure層のserviceをinterfaceで定義しておく必要がありそう
-func NewUserHandler(uc service.UserService) *UserHandler {
+func NewUserHandler(uc usecase.UserService) *UserHandler {
 	return &UserHandler{uc}
 }
 
