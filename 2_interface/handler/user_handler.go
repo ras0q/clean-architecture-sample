@@ -7,14 +7,13 @@ import (
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
 	usecase "github.com/Ras96/clean-architecture-sample/1_usecase"
 	"github.com/gofrs/uuid"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
 type UserHandler interface {
-	GetAll(c echo.Context) error
-	GetByID(c echo.Context) error
-	Register(c echo.Context) error
+	GetAll(c Context) error
+	GetByID(c Context) error
+	Register(c Context) error
 }
 
 type userHandler struct {
@@ -40,10 +39,10 @@ type RegisterReq struct {
 	Email string `json:"email"`
 }
 
-func (h *userHandler) GetAll(c echo.Context) error {
+func (h *userHandler) GetAll(c Context) error {
 	users, err := h.uc.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	res := make([]*User, 0, len(users))
@@ -57,18 +56,18 @@ func (h *userHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *userHandler) GetByID(c echo.Context) error {
+func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error()) // invalid uuid
+		return c.JSON(http.StatusBadRequest, err.Error()) // invalid uuid
 	}
 
 	user, err := h.uc.GetByID(id)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		return echo.NewHTTPError(http.StatusNotFound)
+		return c.NoContent(http.StatusNotFound)
 	} else if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	res := &UserDetail{
@@ -82,10 +81,10 @@ func (h *userHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func (h *userHandler) Register(c echo.Context) error {
+func (h *userHandler) Register(c Context) error {
 	req := RegisterReq{}
 	if err := c.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	user := repository.RegisteredUser{
@@ -94,7 +93,7 @@ func (h *userHandler) Register(c echo.Context) error {
 		Email: req.Email,
 	}
 	if err := h.uc.Register(&user); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.NoContent(http.StatusCreated)
