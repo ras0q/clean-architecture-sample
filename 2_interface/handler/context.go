@@ -1,3 +1,5 @@
+//go:generate go run github.com/golang/mock/mockgen@latest -source=$GOFILE -destination=./mock_$GOPACKAGE/mock_$GOFILE
+
 package handler
 
 type Context interface {
