@@ -1,6 +1,6 @@
 # clean-architecture-sample
 
-<img src="./architecture.svg">
+![architecture](./architecture.png)
 
 ## Getting Started
 

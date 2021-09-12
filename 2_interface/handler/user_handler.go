@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
-	usecase "github.com/Ras96/clean-architecture-sample/1_usecase"
+	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
@@ -17,10 +17,10 @@ type UserHandler interface {
 }
 
 type userHandler struct {
-	uc usecase.UserService
+	uc service.UserService
 }
 
-func NewUserHandler(uc usecase.UserService) UserHandler {
+func NewUserHandler(uc service.UserService) UserHandler {
 	return &userHandler{uc}
 }
 
@@ -39,6 +39,7 @@ type registerReq struct {
 	Email string `json:"email"`
 }
 
+// GET /users
 func (h *userHandler) GetAll(c Context) error {
 	users, err := h.uc.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -56,6 +57,7 @@ func (h *userHandler) GetAll(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// GET /users/:id
 func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
@@ -81,6 +83,7 @@ func (h *userHandler) GetByID(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+// POST /users
 func (h *userHandler) Register(c Context) error {
 	req := registerReq{}
 	if err := c.Bind(&req); err != nil {

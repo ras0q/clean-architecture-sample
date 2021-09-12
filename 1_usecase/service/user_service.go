@@ -1,4 +1,4 @@
-package usecase
+package service
 
 import (
 	"fmt"
@@ -23,7 +23,6 @@ func NewUserService(repo repository.UserRepository) UserService {
 }
 
 // userService(構造体)がUserService(インターフェース)を満たすためにメソッドを定義する
-// GET /users
 func (uc *userService) GetAll() ([]*model.User, error) {
 	users, err := uc.repo.FindAll()
 	if err != nil {
@@ -33,7 +32,6 @@ func (uc *userService) GetAll() ([]*model.User, error) {
 	return users, nil
 }
 
-// GET /users/:id
 func (uc *userService) GetByID(id uuid.UUID) (*model.User, error) {
 	user, err := uc.repo.FindByID(id)
 	if err != nil {
@@ -43,7 +41,6 @@ func (uc *userService) GetByID(id uuid.UUID) (*model.User, error) {
 	return user, nil
 }
 
-// POST /users/
 func (uc *userService) Register(user *repository.RegisteredUser) error {
 	if err := uc.repo.Register(user); err != nil {
 		return fmt.Errorf("failed to register user: %w", err)
