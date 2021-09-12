@@ -7,11 +7,13 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.5.0
+	github.com/stretchr/testify v1.4.0
 	gorm.io/driver/mysql v1.1.2
 	gorm.io/gorm v1.21.15
 )
 
 require (
+	github.com/davecgh/go-spew v1.1.0 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/subcommands v1.0.1 // indirect
@@ -31,4 +33,5 @@ require (
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
 	golang.org/x/tools v0.1.1 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
