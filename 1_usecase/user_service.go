@@ -8,7 +8,6 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-//TODO: 別のファイルに置きたい
 type UserService interface {
 	GetAll() ([]*model.User, error)
 	GetByID(id uuid.UUID) (*model.User, error)
