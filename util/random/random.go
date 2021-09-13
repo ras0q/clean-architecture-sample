@@ -1,6 +1,7 @@
 package random
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"time"
@@ -8,7 +9,10 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-var rs1Letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+var (
+	rs1Letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+	defaultLen = 5
+)
 
 func AlphaNumeric(length int) string {
 	rand.Seed(time.Now().UnixNano())
@@ -21,11 +25,13 @@ func AlphaNumeric(length int) string {
 }
 
 func Email() string {
-	l := 5
-
-	return fmt.Sprintf("%s@%s.com", AlphaNumeric(l), AlphaNumeric(l))
+	return fmt.Sprintf("%s@%s.com", AlphaNumeric(defaultLen), AlphaNumeric(defaultLen))
 }
 
 func UUID() uuid.UUID {
 	return uuid.Must(uuid.NewV4())
+}
+
+func Error() error {
+	return errors.New(AlphaNumeric(defaultLen))
 }
