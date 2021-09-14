@@ -1,16 +1,17 @@
-package database
+package repository
 
 import (
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	"github.com/Ras96/clean-architecture-sample/2_interface/database"
 	"github.com/gofrs/uuid"
 )
 
 type userRepository struct {
-	SQLHandler
+	database.SQLHandler
 }
 
-func NewUserRepository(sql SQLHandler) repository.UserRepository {
+func NewUserRepository(sql database.SQLHandler) repository.UserRepository {
 	return &userRepository{SQLHandler: sql}
 }
 

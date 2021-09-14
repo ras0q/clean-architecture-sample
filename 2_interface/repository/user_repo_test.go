@@ -1,4 +1,4 @@
-package database_test //TODO: import cycleになるので移動する
+package repository
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
-	"github.com/Ras96/clean-architecture-sample/2_interface/database"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database/mock_database"
 	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/gofrs/uuid"
@@ -65,7 +64,7 @@ func Test_userRepository_FindAll(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.want)
-			ur := database.NewUserRepository(sqlHandler)
+			ur := NewUserRepository(sqlHandler)
 			// Assertion
 			got, err := ur.FindAll()
 			tt.assertion(t, err, fmt.Sprintf("userRepository.FindAll()"))
@@ -130,7 +129,7 @@ func Test_userRepository_FindByID(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.args, tt.want)
-			ur := database.NewUserRepository(sqlHandler)
+			ur := NewUserRepository(sqlHandler)
 			// Assertion
 			got, err := ur.FindByID(tt.args.id)
 			tt.assertion(t, err, fmt.Sprintf("userRepository.FindByID(%v)", tt.args.id))
@@ -189,7 +188,7 @@ func Test_userRepository_Register(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.args)
-			ur := database.NewUserRepository(sqlHandler)
+			ur := NewUserRepository(sqlHandler)
 			// Assertion
 			tt.assertion(t, ur.Register(tt.args.user), fmt.Sprintf("userRepository.Register(%v)", tt.args.user))
 		})
