@@ -2,15 +2,12 @@ package main
 
 import (
 	"log"
-	"regexp"
+
+	infrastructure "github.com/Ras96/clean-architecture-sample/3_infrastructure"
 )
 
 func main() {
 	log.Println("Server started")
 
-	// infrastructure.InitRouting()
-
-	r := regexp.MustCompile(`a`)
-	res := r.Split("banana", -1)
-	log.Println(res, len(res))
+	infrastructure.InitRouting()
 }
