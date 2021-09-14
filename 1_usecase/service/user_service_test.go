@@ -1,12 +1,12 @@
-package service_test
+package service
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
 	"github.com/Ras96/clean-architecture-sample/0_domain/repository/mock_repository"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
 	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
@@ -45,21 +45,19 @@ func Test_userService_GetAll(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			repo := mock_repository.NewMockUserRepository(ctrl)
 			tt.setup(repo, tt.want)
-
-			uc := service.NewUserService(repo)
+			uc := NewUserService(repo)
+			// Assertion
 			got, err := uc.GetAll()
-			tt.assertion(t, err)
-			assert.Equal(t, tt.want, got)
+			tt.assertion(t, err, fmt.Sprintf("userService.GetAll()"))
+			assert.Equalf(t, tt.want, got, "userService.GetAll()")
 		})
 	}
 }
@@ -103,21 +101,19 @@ func Test_userService_GetByID(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			repo := mock_repository.NewMockUserRepository(ctrl)
 			tt.setup(repo, tt.args, tt.want)
-
-			uc := service.NewUserService(repo)
+			uc := NewUserService(repo)
+			// Assertion
 			got, err := uc.GetByID(tt.args.id)
-			tt.assertion(t, err)
-			assert.Equal(t, tt.want, got)
+			tt.assertion(t, err, fmt.Sprintf("userService.GetByID(%v)", tt.args.id))
+			assert.Equalf(t, tt.want, got, "userService.GetByID(%v)", tt.args.id)
 		})
 	}
 }
@@ -162,20 +158,17 @@ func Test_userService_Register(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			repo := mock_repository.NewMockUserRepository(ctrl)
 			tt.setup(repo, tt.args)
-
-			uc := service.NewUserService(repo)
-
-			tt.assertion(t, uc.Register(tt.args.user))
+			uc := NewUserService(repo)
+			// Assertion
+			tt.assertion(t, uc.Register(tt.args.user), fmt.Sprintf("userService.Register(%v)", tt.args.user))
 		})
 	}
 }

@@ -1,6 +1,7 @@
-package database_test
+package database_test //TODO: import cycleになるので移動する
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
@@ -56,21 +57,19 @@ func Test_userRepository_FindAll(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.want)
-
 			ur := database.NewUserRepository(sqlHandler)
+			// Assertion
 			got, err := ur.FindAll()
-			tt.assertion(t, err)
-			assert.Equal(t, tt.want, got)
+			tt.assertion(t, err, fmt.Sprintf("userRepository.FindAll()"))
+			assert.Equalf(t, tt.want, got, "userRepository.FindAll()")
 		})
 	}
 }
@@ -84,7 +83,7 @@ func Test_userRepository_FindByID(t *testing.T) {
 		name      string
 		args      args
 		want      *model.User
-		setup     func(SQLHandler *mock_database.MockSQLHandler, args args, want *model.User)
+		setup     func(sqlHandler *mock_database.MockSQLHandler, args args, want *model.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -123,21 +122,19 @@ func Test_userRepository_FindByID(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.args, tt.want)
-
 			ur := database.NewUserRepository(sqlHandler)
+			// Assertion
 			got, err := ur.FindByID(tt.args.id)
-			tt.assertion(t, err)
-			assert.Equal(t, tt.want, got)
+			tt.assertion(t, err, fmt.Sprintf("userRepository.FindByID(%v)", tt.args.id))
+			assert.Equalf(t, tt.want, got, "userRepository.FindByID(%v)", tt.args.id)
 		})
 	}
 }
@@ -150,7 +147,7 @@ func Test_userRepository_Register(t *testing.T) {
 	tests := []struct {
 		name      string
 		args      args
-		setup     func(SQLHandler *mock_database.MockSQLHandler, args args)
+		setup     func(sqlHandler *mock_database.MockSQLHandler, args args)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -184,20 +181,17 @@ func Test_userRepository_Register(t *testing.T) {
 			assertion: assert.Error,
 		},
 	}
-
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+			// Setup mock
 			ctrl := gomock.NewController(t)
-			defer ctrl.Finish()
-
 			sqlHandler := mock_database.NewMockSQLHandler(ctrl)
 			tt.setup(sqlHandler, tt.args)
-
 			ur := database.NewUserRepository(sqlHandler)
-
-			tt.assertion(t, ur.Register(tt.args.user))
+			// Assertion
+			tt.assertion(t, ur.Register(tt.args.user), fmt.Sprintf("userRepository.Register(%v)", tt.args.user))
 		})
 	}
 }
