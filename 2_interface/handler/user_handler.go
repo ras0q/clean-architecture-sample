@@ -26,17 +26,17 @@ func NewUserHandler(uc service.UserService) UserHandler {
 	return &userHandler{uc}
 }
 
-type userRes struct {
+type UserRes struct {
 	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name"`
 }
 
-type userDetailRes struct {
-	userRes
+type UserDetailRes struct {
+	UserRes
 	Email string `json:"email"`
 }
 
-type registerReq struct {
+type RegisterReq struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
@@ -48,9 +48,9 @@ func (h *userHandler) GetAll(c Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	res := make([]*userRes, 0, len(users))
+	res := make([]*UserRes, 0, len(users))
 	for _, v := range users {
-		res = append(res, &userRes{
+		res = append(res, &UserRes{
 			ID:   v.ID,
 			Name: v.Name,
 		})
@@ -63,7 +63,7 @@ func (h *userHandler) GetAll(c Context) error {
 func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
-	if err != nil {
+	if err != nil || id == uuid.Nil {
 		return c.JSON(http.StatusBadRequest, err.Error()) // invalid uuid
 	}
 
@@ -74,8 +74,8 @@ func (h *userHandler) GetByID(c Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	res := &userDetailRes{
-		userRes: userRes{
+	res := &UserDetailRes{
+		UserRes: UserRes{
 			ID:   user.ID,
 			Name: user.Name,
 		},
@@ -87,7 +87,7 @@ func (h *userHandler) GetByID(c Context) error {
 
 // POST /users
 func (h *userHandler) Register(c Context) error {
-	req := registerReq{}
+	req := RegisterReq{}
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
