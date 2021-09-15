@@ -31,7 +31,7 @@ func NewSQLHandler() database.SQLHandler {
 		conf.pass = "pass"
 	}
 	if conf.host = os.Getenv("DB_HOST"); conf.host == "" {
-		conf.host = "mysql"
+		conf.host = "localhost"
 	}
 	if conf.port = os.Getenv("DB_PORT"); conf.port == "" {
 		conf.port = "3306"

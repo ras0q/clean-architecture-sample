@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func InitRouting() {
+func InitRouting() *echo.Echo {
 	// API injection
 	api, err := InjectAPIServer()
 	if err != nil {
@@ -31,5 +31,5 @@ func InitRouting() {
 	userAPI.GET("/:id", f(api.User.GetByID))
 	userAPI.POST("", f(api.User.Register))
 
-	e.Logger.Fatal(e.Start(":8080"))
+	return e
 }

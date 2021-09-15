@@ -9,5 +9,6 @@ import (
 func main() {
 	log.Println("Server started")
 
-	infrastructure.InitRouting()
+	e := infrastructure.InitRouting()
+	e.Logger.Fatal(e.Start(":8080"))
 }
