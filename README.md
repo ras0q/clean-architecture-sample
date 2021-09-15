@@ -6,14 +6,22 @@
 
 ## Getting Started
 
+### Build
+
 ```sh
 docker compose up --build
+```
+
+### Test
+
+```sh
+docker compose exec app go test -v ./...
 ```
 
 ## Tree
 
 ```txt
-$ tree -I vendor
+$ tree
 .
 ├── 0_domain
 │   ├── model
@@ -65,12 +73,6 @@ $ tree -I vendor
 ├── mysql
 │   └── init
 │       └── init.sql
-├── tmp
-│   ├── build-errors.log
-│   ├── cover.html
-│   ├── cover.out
-│   ├── main
-│   └── out.puml
 ├── tools.go
 └── util
     └── random

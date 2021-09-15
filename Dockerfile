@@ -1,5 +1,7 @@
 FROM golang:1.16.7-alpine
 
+ENV CGO_ENABLED=0
+
 WORKDIR /go/src/github.com/Ras96/clean-architecture-sample
 COPY . .
 
