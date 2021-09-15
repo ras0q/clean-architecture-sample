@@ -16,10 +16,14 @@ import (
 
 func Test_userService_GetAll(t *testing.T) {
 	t.Parallel()
+	type fields struct {
+		repo *mock_repository.MockUserRepository
+	}
 	tests := []struct {
 		name      string
+		fields    fields
 		want      []*model.User
-		setup     func(repo *mock_repository.MockUserRepository, want []*model.User)
+		setup     func(f fields, want []*model.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -31,16 +35,16 @@ func Test_userService_GetAll(t *testing.T) {
 					Email: random.Email(),
 				},
 			},
-			setup: func(repo *mock_repository.MockUserRepository, want []*model.User) {
-				repo.EXPECT().FindAll().Return(want, nil)
+			setup: func(f fields, want []*model.User) {
+				f.repo.EXPECT().FindAll().Return(want, nil)
 			},
 			assertion: assert.NoError,
 		},
 		{
 			name: "dbError",
 			want: nil,
-			setup: func(repo *mock_repository.MockUserRepository, want []*model.User) {
-				repo.EXPECT().FindAll().Return(want, gorm.ErrInvalidDB)
+			setup: func(f fields, want []*model.User) {
+				f.repo.EXPECT().FindAll().Return(want, gorm.ErrInvalidDB)
 			},
 			assertion: assert.Error,
 		},
@@ -51,9 +55,11 @@ func Test_userService_GetAll(t *testing.T) {
 			t.Parallel()
 			// Setup mock
 			ctrl := gomock.NewController(t)
-			repo := mock_repository.NewMockUserRepository(ctrl)
-			tt.setup(repo, tt.want)
-			uc := NewUserService(repo)
+			tt.fields = fields{
+				repo: mock_repository.NewMockUserRepository(ctrl),
+			}
+			tt.setup(tt.fields, tt.want)
+			uc := NewUserService(tt.fields.repo)
 			// Assertion
 			got, err := uc.GetAll()
 			tt.assertion(t, err, fmt.Sprintf("userService.GetAll()"))
@@ -64,14 +70,18 @@ func Test_userService_GetAll(t *testing.T) {
 
 func Test_userService_GetByID(t *testing.T) {
 	t.Parallel()
+	type fields struct {
+		repo *mock_repository.MockUserRepository
+	}
 	type args struct {
 		id uuid.UUID
 	}
 	tests := []struct {
 		name      string
+		fields    fields
 		args      args
 		want      *model.User
-		setup     func(repo *mock_repository.MockUserRepository, args args, want *model.User)
+		setup     func(f fields, args args, want *model.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -84,8 +94,8 @@ func Test_userService_GetByID(t *testing.T) {
 				Name:  random.AlphaNumeric(5),
 				Email: random.Email(),
 			},
-			setup: func(repo *mock_repository.MockUserRepository, args args, want *model.User) {
-				repo.EXPECT().FindByID(args.id).Return(want, nil)
+			setup: func(f fields, args args, want *model.User) {
+				f.repo.EXPECT().FindByID(args.id).Return(want, nil)
 			},
 			assertion: assert.NoError,
 		},
@@ -95,8 +105,8 @@ func Test_userService_GetByID(t *testing.T) {
 				id: random.UUID(),
 			},
 			want: nil,
-			setup: func(repo *mock_repository.MockUserRepository, args args, want *model.User) {
-				repo.EXPECT().FindByID(args.id).Return(want, gorm.ErrInvalidDB)
+			setup: func(f fields, args args, want *model.User) {
+				f.repo.EXPECT().FindByID(args.id).Return(want, gorm.ErrInvalidDB)
 			},
 			assertion: assert.Error,
 		},
@@ -107,9 +117,11 @@ func Test_userService_GetByID(t *testing.T) {
 			t.Parallel()
 			// Setup mock
 			ctrl := gomock.NewController(t)
-			repo := mock_repository.NewMockUserRepository(ctrl)
-			tt.setup(repo, tt.args, tt.want)
-			uc := NewUserService(repo)
+			tt.fields = fields{
+				repo: mock_repository.NewMockUserRepository(ctrl),
+			}
+			tt.setup(tt.fields, tt.args, tt.want)
+			uc := NewUserService(tt.fields.repo)
 			// Assertion
 			got, err := uc.GetByID(tt.args.id)
 			tt.assertion(t, err, fmt.Sprintf("userService.GetByID(%v)", tt.args.id))
@@ -120,13 +132,17 @@ func Test_userService_GetByID(t *testing.T) {
 
 func Test_userService_Register(t *testing.T) {
 	t.Parallel()
+	type fields struct {
+		repo *mock_repository.MockUserRepository
+	}
 	type args struct {
 		user *repository.RegisteredUser
 	}
 	tests := []struct {
 		name      string
+		fields    fields
 		args      args
-		setup     func(repo *mock_repository.MockUserRepository, args args)
+		setup     func(f fields, args args)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -138,8 +154,8 @@ func Test_userService_Register(t *testing.T) {
 					Email: random.Email(),
 				},
 			},
-			setup: func(repo *mock_repository.MockUserRepository, args args) {
-				repo.EXPECT().Register(args.user).Return(nil)
+			setup: func(f fields, args args) {
+				f.repo.EXPECT().Register(args.user).Return(nil)
 			},
 			assertion: assert.NoError,
 		},
@@ -152,8 +168,8 @@ func Test_userService_Register(t *testing.T) {
 					Email: random.Email(),
 				},
 			},
-			setup: func(repo *mock_repository.MockUserRepository, args args) {
-				repo.EXPECT().Register(args.user).Return(gorm.ErrInvalidDB)
+			setup: func(f fields, args args) {
+				f.repo.EXPECT().Register(args.user).Return(gorm.ErrInvalidDB)
 			},
 			assertion: assert.Error,
 		},
@@ -164,9 +180,11 @@ func Test_userService_Register(t *testing.T) {
 			t.Parallel()
 			// Setup mock
 			ctrl := gomock.NewController(t)
-			repo := mock_repository.NewMockUserRepository(ctrl)
-			tt.setup(repo, tt.args)
-			uc := NewUserService(repo)
+			tt.fields = fields{
+				repo: mock_repository.NewMockUserRepository(ctrl),
+			}
+			tt.setup(tt.fields, tt.args)
+			uc := NewUserService(tt.fields.repo)
 			// Assertion
 			tt.assertion(t, uc.Register(tt.args.user), fmt.Sprintf("userService.Register(%v)", tt.args.user))
 		})
