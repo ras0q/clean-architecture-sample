@@ -6,16 +6,22 @@
 
 ## Getting Started
 
-### Build
+### Run
 
 ```sh
-docker compose up --build
+make all
+```
+
+### Run locally (But use Docker)
+
+```sh
+make dev
 ```
 
 ### Test
 
 ```sh
-docker compose exec app go test -v ./...
+make test
 ```
 
 ## Tree
