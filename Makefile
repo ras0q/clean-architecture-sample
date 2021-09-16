@@ -1,20 +1,21 @@
-SHELL      := /bin/bash
-LOCAL_PORT := 8081
+SHELL     := /bin/bash
+APP_PORT 	:= 8081
+APP_INFRA := origin # ginを使うときは`make all APP_INFRA=alt`とする
 
 # Run on Docker
 all: stop up logs
 stop:
 	@docker compose stop
 up:
-	@docker compose up --build -d
+	@APP_INFRA=$(APP_INFRA) docker compose up --build -d
 logs:
 	@docker compose logs -f
 
 # Run locally
 .PHONY: dev
-local:
+dev:
 	@docker compose up db -d --no-recreate
-	@PORT=$(LOCAL_PORT) go run github.com/cosmtrek/air@v1.27.3
+	@APP_PORT=$(APP_PORT) go run github.com/cosmtrek/air@v1.27.3
 
 # Test go-files
 .PHONY: test

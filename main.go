@@ -7,16 +7,24 @@ import (
 	"strconv"
 
 	infrastructure "github.com/Ras96/clean-architecture-sample/3_infrastructure"
+	alt "github.com/Ras96/clean-architecture-sample/3_infrastructure_alt"
 )
 
 func main() {
 	log.Println("Server started")
 
-	e := infrastructure.InitRouting()
-	port, err := strconv.Atoi(os.Getenv("PORT"))
+	port, err := strconv.Atoi(os.Getenv("APP_PORT"))
 	if err != nil {
 		port = 8080
 	}
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
+	if os.Getenv("APP_INFRA") == "alt" {
+		// gin
+		r := alt.InitRouting()
+		r.Run(fmt.Sprintf(":%d", port))
+	} else {
+		// echo
+		e := infrastructure.InitRouting()
+		e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
+	}
 }

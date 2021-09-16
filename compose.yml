@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     environment:
+      APP_INFRA: ${APP_INFRA:-origin}
       DB_HOST: clean-architecture-sample_db_1
     restart: always
     volumes:
