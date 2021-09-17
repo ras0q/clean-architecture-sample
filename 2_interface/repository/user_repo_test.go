@@ -7,6 +7,7 @@ import (
 	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database/mock_database"
+	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
 	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
@@ -175,7 +176,12 @@ func Test_userRepository_Register(t *testing.T) {
 				},
 			},
 			setup: func(f fields, args args) {
-				f.SQLHandler.EXPECT().Create(args.user).Return(f.SQLHandler)
+				u := model.User{
+					ID:    args.user.ID,
+					Name:  args.user.Name,
+					Email: args.user.Email,
+				}
+				f.SQLHandler.EXPECT().Create(&u).Return(f.SQLHandler)
 				f.SQLHandler.EXPECT().Error().Return(nil)
 			},
 			assertion: assert.NoError,
@@ -190,7 +196,12 @@ func Test_userRepository_Register(t *testing.T) {
 				},
 			},
 			setup: func(f fields, args args) {
-				f.SQLHandler.EXPECT().Create(args.user).Return(f.SQLHandler)
+				u := model.User{
+					ID:    args.user.ID,
+					Name:  args.user.Name,
+					Email: args.user.Email,
+				}
+				f.SQLHandler.EXPECT().Create(&u).Return(f.SQLHandler)
 				f.SQLHandler.EXPECT().Error().Return(random.Error())
 			},
 			assertion: assert.Error,
