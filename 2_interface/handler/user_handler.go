@@ -19,10 +19,10 @@ type UserHandler interface {
 }
 
 type userHandler struct {
-	uc service.UserService
+	srv service.UserService
 }
 
-func NewUserHandler(uc service.UserService) UserHandler {
+func NewUserHandler(srv service.UserService) UserHandler {
 	return &userHandler{uc}
 }
 
@@ -43,7 +43,7 @@ type RegisterReq struct {
 
 // GET /users
 func (h *userHandler) GetAll(c Context) error {
-	users, err := h.uc.GetAll()
+	users, err := h.srv.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -67,7 +67,7 @@ func (h *userHandler) GetByID(c Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error()) // invalid uuid
 	}
 
-	user, err := h.uc.GetByID(id)
+	user, err := h.srv.GetByID(id)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.NoContent(http.StatusNotFound)
 	} else if err != nil {
@@ -97,7 +97,7 @@ func (h *userHandler) Register(c Context) error {
 		Name:  req.Name,
 		Email: req.Email,
 	}
-	if err := h.uc.Register(&user); err != nil {
+	if err := h.srv.Register(&user); err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 

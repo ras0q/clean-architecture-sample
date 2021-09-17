@@ -19,7 +19,7 @@ import (
 func Test_userHandler_GetAll(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		uc *mock_service.MockUserService
+		srv *mock_service.MockUserService
 	}
 	type args struct {
 		c *mock_handler.MockContext
@@ -42,7 +42,7 @@ func Test_userHandler_GetAll(t *testing.T) {
 						Email: random.Email(),
 					},
 				}
-				f.uc.EXPECT().GetAll().Return(users, nil)
+				f.srv.EXPECT().GetAll().Return(users, nil)
 				res := make([]*handler.UserRes, 0, len(users))
 				for _, v := range users {
 					res = append(res, &handler.UserRes{
@@ -59,7 +59,7 @@ func Test_userHandler_GetAll(t *testing.T) {
 			args: args{},
 			setup: func(f fields, args args) {
 				err := random.Error()
-				f.uc.EXPECT().GetAll().Return(nil, err)
+				f.srv.EXPECT().GetAll().Return(nil, err)
 				args.c.EXPECT().JSON(http.StatusInternalServerError, err.Error()).Return(nil)
 			},
 			assertion: assert.NoError,
@@ -73,10 +73,10 @@ func Test_userHandler_GetAll(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			tt.args.c = mock_handler.NewMockContext(ctrl)
 			tt.fields = fields{
-				uc: mock_service.NewMockUserService(ctrl),
+				srv: mock_service.NewMockUserService(ctrl),
 			}
 			tt.setup(tt.fields, tt.args)
-			h := handler.NewUserHandler(tt.fields.uc)
+			h := handler.NewUserHandler(tt.fields.srv)
 			// Assertion
 			tt.assertion(t, h.GetAll(tt.args.c), fmt.Sprintf("userHandler.GetAll(%v)", tt.args.c))
 		})
@@ -86,7 +86,7 @@ func Test_userHandler_GetAll(t *testing.T) {
 func Test_userHandler_GetByID(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		uc *mock_service.MockUserService
+		srv *mock_service.MockUserService
 	}
 	type args struct {
 		c *mock_handler.MockContext
@@ -109,7 +109,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 					Name:  random.AlphaNumeric(5),
 					Email: random.Email(),
 				}
-				f.uc.EXPECT().GetByID(id).Return(user, nil)
+				f.srv.EXPECT().GetByID(id).Return(user, nil)
 				args.c.EXPECT().JSON(http.StatusOK, &handler.UserDetailRes{
 					UserRes: handler.UserRes{
 						ID:   user.ID,
@@ -137,7 +137,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 			setup: func(f fields, args args) {
 				id := random.UUID()
 				args.c.EXPECT().Param("id").Return(id.String())
-				f.uc.EXPECT().GetByID(id).Return(nil, gorm.ErrRecordNotFound)
+				f.srv.EXPECT().GetByID(id).Return(nil, gorm.ErrRecordNotFound)
 				args.c.EXPECT().NoContent(http.StatusNotFound).Return(nil)
 			},
 			assertion: assert.NoError,
@@ -149,7 +149,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 				id := random.UUID()
 				args.c.EXPECT().Param("id").Return(id.String())
 				err := random.Error()
-				f.uc.EXPECT().GetByID(id).Return(nil, err)
+				f.srv.EXPECT().GetByID(id).Return(nil, err)
 				args.c.EXPECT().JSON(http.StatusInternalServerError, err.Error()).Return(nil)
 			},
 			assertion: assert.NoError,
@@ -163,10 +163,10 @@ func Test_userHandler_GetByID(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			tt.args.c = mock_handler.NewMockContext(ctrl)
 			tt.fields = fields{
-				uc: mock_service.NewMockUserService(ctrl),
+				srv: mock_service.NewMockUserService(ctrl),
 			}
 			tt.setup(tt.fields, tt.args)
-			h := handler.NewUserHandler(tt.fields.uc)
+			h := handler.NewUserHandler(tt.fields.srv)
 			// Assertion
 			tt.assertion(t, h.GetByID(tt.args.c), fmt.Sprintf("userHandler.GetByID(%v)", tt.args.c))
 		})
@@ -176,7 +176,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 func Test_userHandler_Register(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		uc *mock_service.MockUserService
+		srv *mock_service.MockUserService
 	}
 	type args struct {
 		c *mock_handler.MockContext
@@ -194,7 +194,7 @@ func Test_userHandler_Register(t *testing.T) {
 			setup: func(f fields, args args) {
 				req := handler.RegisterReq{}
 				args.c.EXPECT().Bind(&req).Return(nil)
-				f.uc.EXPECT().Register(gomock.Any()).Return(nil)
+				f.srv.EXPECT().Register(gomock.Any()).Return(nil)
 				args.c.EXPECT().NoContent(http.StatusCreated).Return(nil)
 			},
 			assertion: assert.NoError,
@@ -217,7 +217,7 @@ func Test_userHandler_Register(t *testing.T) {
 				req := handler.RegisterReq{}
 				args.c.EXPECT().Bind(&req).Return(nil)
 				err := random.Error()
-				f.uc.EXPECT().Register(gomock.Any()).Return(err)
+				f.srv.EXPECT().Register(gomock.Any()).Return(err)
 				args.c.EXPECT().JSON(http.StatusInternalServerError, err.Error()).Return(nil)
 			},
 			assertion: assert.NoError,
@@ -231,10 +231,10 @@ func Test_userHandler_Register(t *testing.T) {
 			ctrl := gomock.NewController(t)
 			tt.args.c = mock_handler.NewMockContext(ctrl)
 			tt.fields = fields{
-				uc: mock_service.NewMockUserService(ctrl),
+				srv: mock_service.NewMockUserService(ctrl),
 			}
 			tt.setup(tt.fields, tt.args)
-			h := handler.NewUserHandler(tt.fields.uc)
+			h := handler.NewUserHandler(tt.fields.srv)
 			// Assertion
 			tt.assertion(t, h.Register(tt.args.c), fmt.Sprintf("userHandler.Register(%v)", tt.args.c))
 		})
