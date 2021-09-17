@@ -6,7 +6,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"

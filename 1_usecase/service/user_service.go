@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/gofrs/uuid"
 )
 
