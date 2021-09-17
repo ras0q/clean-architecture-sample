@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/Ras96/clean-architecture-sample/0_domain/model"
-	"github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database/mock_database"
 	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/gofrs/uuid"

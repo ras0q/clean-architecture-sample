@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	model "github.com/Ras96/clean-architecture-sample/0_domain/model"
-	repository "github.com/Ras96/clean-architecture-sample/0_domain/repository"
+	repository "github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
 )
