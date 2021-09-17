@@ -94,3 +94,4 @@ $ tree
 - [Go 言語と Clean Architecture で API サーバを構築する - Qiita](https://qiita.com/ariku/items/874656b33d2e5acdf281)
 - [Clean Architecture で API Server を構築してみる - Qiita](https://qiita.com/hirotakan/items/698c1f5773a3cca6193e)
 - [Go 言語で Clean Architecture を実現して、gomock でテストしてみた - Qiita](https://qiita.com/ogady/items/34aae1b2af3080e0fec4)
+- [Golang - EchoとGORMでClean Architecture APIを構築する - Qiita](https://qiita.com/so-heee/items/0cca93008eae635c642a)
