@@ -17,16 +17,16 @@ type UserService interface {
 }
 
 type userService struct {
-	repo repository.UserRepository
+	user repository.UserRepository
 }
 
-func NewUserService(repo repository.UserRepository) UserService {
-	return &userService{repo}
+func NewUserService(user repository.UserRepository) UserService {
+	return &userService{user}
 }
 
 // userService(構造体)がUserService(インターフェース)を満たすためにメソッドを定義する
-func (uc *userService) GetAll() ([]*model.User, error) {
-	users, err := uc.repo.FindAll()
+func (s *userService) GetAll() ([]*model.User, error) {
+	users, err := s.user.FindAll()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get users: %w", err)
 	}
@@ -34,8 +34,8 @@ func (uc *userService) GetAll() ([]*model.User, error) {
 	return users, nil
 }
 
-func (uc *userService) GetByID(id uuid.UUID) (*model.User, error) {
-	user, err := uc.repo.FindByID(id)
+func (s *userService) GetByID(id uuid.UUID) (*model.User, error) {
+	user, err := s.user.FindByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user by id: %w", err)
 	}
@@ -43,8 +43,8 @@ func (uc *userService) GetByID(id uuid.UUID) (*model.User, error) {
 	return user, nil
 }
 
-func (uc *userService) Register(user *repository.RegisteredUser) error {
-	if err := uc.repo.Register(user); err != nil {
+func (s *userService) Register(user *repository.RegisteredUser) error {
+	if err := s.user.Register(user); err != nil {
 		return fmt.Errorf("failed to register user: %w", err)
 	}
 
