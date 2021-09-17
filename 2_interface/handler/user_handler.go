@@ -23,7 +23,7 @@ type userHandler struct {
 }
 
 func NewUserHandler(srv service.UserService) UserHandler {
-	return &userHandler{uc}
+	return &userHandler{srv}
 }
 
 type UserRes struct {
