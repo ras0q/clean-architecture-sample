@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/service/mock_service"
 	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
 	"github.com/Ras96/clean-architecture-sample/2_interface/handler/mock_handler"
@@ -35,7 +35,7 @@ func Test_userHandler_GetAll(t *testing.T) {
 			name: "success",
 			args: args{},
 			setup: func(f fields, args args) {
-				users := []*model.User{
+				users := []*domain.User{
 					{
 						ID:    random.UUID(),
 						Name:  random.AlphaNumeric(5),
@@ -104,7 +104,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 			setup: func(f fields, args args) {
 				id := random.UUID()
 				args.c.EXPECT().Param("id").Return(id.String())
-				user := &model.User{
+				user := &domain.User{
 					ID:    id,
 					Name:  random.AlphaNumeric(5),
 					Email: random.Email(),

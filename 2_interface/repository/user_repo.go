@@ -1,9 +1,10 @@
 package repository
 
 import (
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database"
+	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
 	"github.com/gofrs/uuid"
 )
 
@@ -16,8 +17,8 @@ func NewUserRepository(sql database.SQLHandler) repository.UserRepository {
 }
 
 // userRepository<struct>がrepository.UserRepository<interface>を満たすようにメソッドを定義する
-func (ur *userRepository) FindAll() ([]*model.User, error) {
-	users := make([]*model.User, 0)
+func (ur *userRepository) FindAll() ([]*domain.User, error) {
+	users := make([]*domain.User, 0)
 	if err := ur.Find(&users).Error(); err != nil {
 		return nil, err
 	}
@@ -25,8 +26,8 @@ func (ur *userRepository) FindAll() ([]*model.User, error) {
 	return users, nil
 }
 
-func (ur *userRepository) FindByID(id uuid.UUID) (*model.User, error) {
-	user := model.User{ID: id}
+func (ur *userRepository) FindByID(id uuid.UUID) (*domain.User, error) {
+	user := domain.User{ID: id}
 	if err := ur.First(&user).Error(); err != nil {
 		return nil, err
 	}
@@ -35,7 +36,12 @@ func (ur *userRepository) FindByID(id uuid.UUID) (*model.User, error) {
 }
 
 func (ur *userRepository) Register(user *repository.RegisteredUser) error {
-	if err := ur.Create(user).Error(); err != nil {
+	newUser := model.User{
+		ID:    user.ID,
+		Name:  user.Name,
+		Email: user.Email,
+	}
+	if err := ur.Create(&newUser).Error(); err != nil {
 		return err
 	}
 

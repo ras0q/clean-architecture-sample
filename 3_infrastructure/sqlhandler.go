@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/Ras96/clean-architecture-sample/2_interface/database"
+	"github.com/Ras96/clean-architecture-sample/3_infrastructure/migrate"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -52,6 +53,11 @@ func NewSQLHandler() database.SQLHandler {
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
 	}
+
+	// Migration
+	// Note: 既存のテーブルのカラムの削除などは行われないので手動で削除する
+	// https://gorm.io/ja_JP/docs/migration.html
+	conn.AutoMigrate(migrate.AllTables()...)
 
 	return &sqlHandler{conn}
 }

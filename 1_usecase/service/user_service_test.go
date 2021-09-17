@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository/mock_repository"
 	"github.com/Ras96/clean-architecture-sample/util/random"
@@ -22,20 +22,20 @@ func Test_userService_GetAll(t *testing.T) {
 	tests := []struct {
 		name      string
 		fields    fields
-		want      []*model.User
-		setup     func(f fields, want []*model.User)
+		want      []*domain.User
+		setup     func(f fields, want []*domain.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
 			name: "success",
-			want: []*model.User{
+			want: []*domain.User{
 				{
 					ID:    random.UUID(),
 					Name:  random.AlphaNumeric(5),
 					Email: random.Email(),
 				},
 			},
-			setup: func(f fields, want []*model.User) {
+			setup: func(f fields, want []*domain.User) {
 				f.user.EXPECT().FindAll().Return(want, nil)
 			},
 			assertion: assert.NoError,
@@ -43,7 +43,7 @@ func Test_userService_GetAll(t *testing.T) {
 		{
 			name: "dbError",
 			want: nil,
-			setup: func(f fields, want []*model.User) {
+			setup: func(f fields, want []*domain.User) {
 				f.user.EXPECT().FindAll().Return(want, gorm.ErrInvalidDB)
 			},
 			assertion: assert.Error,
@@ -80,8 +80,8 @@ func Test_userService_GetByID(t *testing.T) {
 		name      string
 		fields    fields
 		args      args
-		want      *model.User
-		setup     func(f fields, args args, want *model.User)
+		want      *domain.User
+		setup     func(f fields, args args, want *domain.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -89,12 +89,12 @@ func Test_userService_GetByID(t *testing.T) {
 			args: args{
 				id: random.UUID(),
 			},
-			want: &model.User{
+			want: &domain.User{
 				ID:    random.UUID(),
 				Name:  random.AlphaNumeric(5),
 				Email: random.Email(),
 			},
-			setup: func(f fields, args args, want *model.User) {
+			setup: func(f fields, args args, want *domain.User) {
 				f.user.EXPECT().FindByID(args.id).Return(want, nil)
 			},
 			assertion: assert.NoError,
@@ -105,7 +105,7 @@ func Test_userService_GetByID(t *testing.T) {
 				id: random.UUID(),
 			},
 			want: nil,
-			setup: func(f fields, args args, want *model.User) {
+			setup: func(f fields, args args, want *domain.User) {
 				f.user.EXPECT().FindByID(args.id).Return(want, gorm.ErrInvalidDB)
 			},
 			assertion: assert.Error,

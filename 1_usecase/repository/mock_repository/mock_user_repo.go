@@ -7,7 +7,7 @@ package mock_repository
 import (
 	reflect "reflect"
 
-	model "github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	repository "github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
@@ -37,10 +37,10 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 }
 
 // FindAll mocks base method.
-func (m *MockUserRepository) FindAll() ([]*model.User, error) {
+func (m *MockUserRepository) FindAll() ([]*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindAll")
-	ret0, _ := ret[0].([]*model.User)
+	ret0, _ := ret[0].([]*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -52,10 +52,10 @@ func (mr *MockUserRepositoryMockRecorder) FindAll() *gomock.Call {
 }
 
 // FindByID mocks base method.
-func (m *MockUserRepository) FindByID(id uuid.UUID) (*model.User, error) {
+func (m *MockUserRepository) FindByID(id uuid.UUID) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByID", id)
-	ret0, _ := ret[0].(*model.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

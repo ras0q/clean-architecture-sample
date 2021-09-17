@@ -7,7 +7,7 @@ package mock_service
 import (
 	reflect "reflect"
 
-	model "github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	repository "github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	uuid "github.com/gofrs/uuid"
 	gomock "github.com/golang/mock/gomock"
@@ -37,10 +37,10 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // GetAll mocks base method.
-func (m *MockUserService) GetAll() ([]*model.User, error) {
+func (m *MockUserService) GetAll() ([]*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetAll")
-	ret0, _ := ret[0].([]*model.User)
+	ret0, _ := ret[0].([]*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -52,10 +52,10 @@ func (mr *MockUserServiceMockRecorder) GetAll() *gomock.Call {
 }
 
 // GetByID mocks base method.
-func (m *MockUserService) GetByID(id uuid.UUID) (*model.User, error) {
+func (m *MockUserService) GetByID(id uuid.UUID) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", id)
-	ret0, _ := ret[0].(*model.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

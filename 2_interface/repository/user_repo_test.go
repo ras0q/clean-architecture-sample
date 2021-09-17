@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database/mock_database"
 	"github.com/Ras96/clean-architecture-sample/util/random"
@@ -21,22 +21,22 @@ func Test_userRepository_FindAll(t *testing.T) {
 	tests := []struct {
 		name      string
 		fields    fields
-		want      []*model.User
-		setup     func(f fields, want []*model.User)
+		want      []*domain.User
+		setup     func(f fields, want []*domain.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
 			name: "success",
-			want: []*model.User{
+			want: []*domain.User{
 				{
 					ID:    random.UUID(),
 					Name:  random.AlphaNumeric(5),
 					Email: random.Email(),
 				},
 			},
-			setup: func(f fields, want []*model.User) {
-				users := make([]*model.User, 0)
-				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*model.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+			setup: func(f fields, want []*domain.User) {
+				users := make([]*domain.User, 0)
+				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*users = want
 
 					return f.SQLHandler
@@ -48,9 +48,9 @@ func Test_userRepository_FindAll(t *testing.T) {
 		{
 			name: "dbError",
 			want: nil,
-			setup: func(f fields, want []*model.User) {
-				users := make([]*model.User, 0)
-				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*model.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+			setup: func(f fields, want []*domain.User) {
+				users := make([]*domain.User, 0)
+				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*users = want
 
 					return f.SQLHandler
@@ -91,8 +91,8 @@ func Test_userRepository_FindByID(t *testing.T) {
 		name      string
 		fields    fields
 		args      args
-		want      *model.User
-		setup     func(f fields, args args, want *model.User)
+		want      *domain.User
+		setup     func(f fields, args args, want *domain.User)
 		assertion assert.ErrorAssertionFunc
 	}{
 		{
@@ -100,15 +100,15 @@ func Test_userRepository_FindByID(t *testing.T) {
 			args: args{
 				id: random.UUID(),
 			},
-			want: &model.User{
+			want: &domain.User{
 				ID:    uuid.Nil, // setupでargs.idと揃える
 				Name:  random.AlphaNumeric(5),
 				Email: random.Email(),
 			},
-			setup: func(f fields, args args, want *model.User) {
+			setup: func(f fields, args args, want *domain.User) {
 				want.ID = args.id
-				user := model.User{ID: args.id}
-				f.SQLHandler.EXPECT().First(&user, gomock.Any()).DoAndReturn(func(user *model.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+				user := domain.User{ID: args.id}
+				f.SQLHandler.EXPECT().First(&user, gomock.Any()).DoAndReturn(func(user *domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*user = *want
 
 					return f.SQLHandler
@@ -123,8 +123,8 @@ func Test_userRepository_FindByID(t *testing.T) {
 				id: random.UUID(),
 			},
 			want: nil,
-			setup: func(f fields, args args, want *model.User) {
-				user := model.User{ID: args.id}
+			setup: func(f fields, args args, want *domain.User) {
+				user := domain.User{ID: args.id}
 				f.SQLHandler.EXPECT().First(&user, gomock.Any()).Return(f.SQLHandler)
 				f.SQLHandler.EXPECT().Error().Return(random.Error())
 			},
