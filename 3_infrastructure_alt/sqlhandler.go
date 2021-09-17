@@ -58,7 +58,7 @@ func NewSQLHandler() database.SQLHandler {
 	return &sqlHandler{conn}
 }
 
-// sqlHandler(構造体)がdatabase.SQLHandler(インターフェース)を満たすためにメソッドを定義する
+// sqlHandler<struct>がdatabase.SQLHandler<interface>を満たすようにメソッドを定義する
 func (hl *sqlHandler) Find(out interface{}, where ...interface{}) database.SQLHandler {
 	db := hl.conn.Find(out, where...)
 

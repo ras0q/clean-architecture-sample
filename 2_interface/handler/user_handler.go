@@ -41,7 +41,9 @@ type RegisterReq struct {
 	Email string `json:"email"`
 }
 
-// GET /users
+// userHandler<struct>がUserHandler<interface>を満たすようにメソッドを定義する
+
+// GetAll GET /users
 func (h *userHandler) GetAll(c Context) error {
 	users, err := h.srv.GetAll()
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
@@ -59,7 +61,7 @@ func (h *userHandler) GetAll(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-// GET /users/:id
+// GetByID GET /users/:id
 func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
 	id, err := uuid.FromString(idstr)
@@ -85,7 +87,7 @@ func (h *userHandler) GetByID(c Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-// POST /users
+// Pegister POST /users
 func (h *userHandler) Register(c Context) error {
 	req := RegisterReq{}
 	if err := c.Bind(&req); err != nil {

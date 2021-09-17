@@ -24,7 +24,7 @@ func NewUserService(user repository.UserRepository) UserService {
 	return &userService{user}
 }
 
-// userService(構造体)がUserService(インターフェース)を満たすためにメソッドを定義する
+// userService<struct>がUserService<interface>を満たすようにメソッドを定義する
 func (s *userService) GetAll() ([]*model.User, error) {
 	users, err := s.user.FindAll()
 	if err != nil {

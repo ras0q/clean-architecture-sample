@@ -18,6 +18,7 @@ func main() {
 		port = 8080
 	}
 
+	// 使用するフレームワークを変更する
 	if os.Getenv("APP_INFRA") == "alt" {
 		// gin
 		r := alt.InitRouting()

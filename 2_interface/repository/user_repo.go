@@ -15,7 +15,7 @@ func NewUserRepository(sql database.SQLHandler) repository.UserRepository {
 	return &userRepository{SQLHandler: sql}
 }
 
-// userRepository(構造体)がrepository.UserRepository(インターフェース)を満たすためにメソッドを定義する
+// userRepository<struct>がrepository.UserRepository<interface>を満たすようにメソッドを定義する
 func (ur *userRepository) FindAll() ([]*model.User, error) {
 	users := make([]*model.User, 0)
 	if err := ur.Find(&users).Error(); err != nil {

@@ -16,6 +16,7 @@ func NewPingHandler() PingHandler {
 	return &pingHandler{}
 }
 
+// pingHandler<struct>がPingHandler<interface>を満たすようにメソッドを定義する
 func (h *pingHandler) Ping(c Context) error {
 	return c.String(http.StatusOK, "pong!")
 }

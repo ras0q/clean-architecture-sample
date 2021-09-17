@@ -6,7 +6,7 @@ import (
 )
 
 type context struct {
-	echo.Context
+	echo.Context // handler.Context<interface>を満たす
 }
 
 func f(next func(handler.Context) error) echo.HandlerFunc {
