@@ -27,7 +27,7 @@ func (ur *userRepository) FindAll() ([]*domain.User, error) {
 }
 
 func (ur *userRepository) FindByID(id uuid.UUID) (*domain.User, error) {
-	user := domain.User{ID: id}
+	user := domain.NewUser(id, "", "")
 	if err := ur.First(&user).Error(); err != nil {
 		return nil, err
 	}

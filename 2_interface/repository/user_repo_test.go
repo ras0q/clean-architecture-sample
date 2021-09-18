@@ -14,6 +14,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// FindByIDなどで指定するID
+var specificID = random.UUID()
+
 func Test_userRepository_FindAll(t *testing.T) {
 	t.Parallel()
 	type fields struct {
@@ -29,11 +32,9 @@ func Test_userRepository_FindAll(t *testing.T) {
 		{
 			name: "success",
 			want: []*domain.User{
-				{
-					ID:    random.UUID(),
-					Name:  random.AlphaNumeric(5),
-					Email: random.Email(),
-				},
+				random.User(),
+				random.User(),
+				random.User(),
 			},
 			setup: func(f fields, want []*domain.User) {
 				users := make([]*domain.User, 0)
@@ -99,16 +100,15 @@ func Test_userRepository_FindByID(t *testing.T) {
 		{
 			name: "success",
 			args: args{
-				id: random.UUID(),
+				id: specificID,
 			},
-			want: &domain.User{
-				ID:    uuid.Nil, // setupでargs.idと揃える
-				Name:  random.AlphaNumeric(5),
-				Email: random.Email(),
-			},
+			want: func() *domain.User {
+				user := domain.NewUser(specificID, random.AlphaNumeric(5), random.Email())
+
+				return &user
+			}(), // TODO: もう少し簡潔に書きたい
 			setup: func(f fields, args args, want *domain.User) {
-				want.ID = args.id
-				user := domain.User{ID: args.id}
+				user := domain.NewUser(args.id, "", "")
 				f.SQLHandler.EXPECT().First(&user, gomock.Any()).DoAndReturn(func(user *domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*user = *want
 
@@ -121,11 +121,11 @@ func Test_userRepository_FindByID(t *testing.T) {
 		{
 			name: "dbError",
 			args: args{
-				id: random.UUID(),
+				id: specificID,
 			},
 			want: nil,
 			setup: func(f fields, args args, want *domain.User) {
-				user := domain.User{ID: args.id}
+				user := domain.NewUser(specificID, "", "")
 				f.SQLHandler.EXPECT().First(&user, gomock.Any()).Return(f.SQLHandler)
 				f.SQLHandler.EXPECT().Error().Return(random.Error())
 			},
