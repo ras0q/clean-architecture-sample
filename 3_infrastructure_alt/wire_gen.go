@@ -27,7 +27,7 @@ func InjectAPIServer() (handler.API, error) {
 
 // wire.go:
 
-// エンドポイントを増やした時はここに追加する
+// Note: エンドポイントを増やした時はここに追加する
 var (
 	apiSet  = wire.NewSet(handler.NewAPI)
 	sqlSet  = wire.NewSet(NewSQLHandler)
