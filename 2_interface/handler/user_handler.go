@@ -8,6 +8,7 @@ import (
 
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
+	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
@@ -95,7 +96,7 @@ func (h *userHandler) Register(c Context) error {
 	}
 
 	user := repository.RegisteredUser{
-		ID:    uuid.Must(uuid.NewV4()),
+		ID:    random.UUID(),
 		Name:  req.Name,
 		Email: req.Email,
 	}
