@@ -36,18 +36,16 @@ func Test_userHandler_GetAll(t *testing.T) {
 			args: args{},
 			setup: func(f fields, args args) {
 				users := []*domain.User{
-					{
-						ID:    random.UUID(),
-						Name:  random.AlphaNumeric(5),
-						Email: random.Email(),
-					},
+					random.User(),
+					random.User(),
+					random.User(),
 				}
 				f.srv.EXPECT().GetAll().Return(users, nil)
 				res := make([]*handler.UserRes, 0, len(users))
 				for _, v := range users {
 					res = append(res, &handler.UserRes{
-						ID:   v.ID,
-						Name: v.Name,
+						ID:   v.ID(),
+						Name: v.Name(),
 					})
 				}
 				args.c.EXPECT().JSON(http.StatusOK, res).Return(nil)
@@ -104,18 +102,14 @@ func Test_userHandler_GetByID(t *testing.T) {
 			setup: func(f fields, args args) {
 				id := random.UUID()
 				args.c.EXPECT().Param("id").Return(id.String())
-				user := &domain.User{
-					ID:    id,
-					Name:  random.AlphaNumeric(5),
-					Email: random.Email(),
-				}
-				f.srv.EXPECT().GetByID(id).Return(user, nil)
+				user := domain.NewUser(id, random.AlphaNumeric(5), random.Email())
+				f.srv.EXPECT().GetByID(id).Return(&user, nil)
 				args.c.EXPECT().JSON(http.StatusOK, &handler.UserDetailRes{
 					UserRes: handler.UserRes{
-						ID:   user.ID,
-						Name: user.Name,
+						ID:   user.ID(),
+						Name: user.Name(),
 					},
-					Email: user.Email,
+					Email: user.Email(),
 				}).Return(nil)
 			},
 			assertion: assert.NoError,

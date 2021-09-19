@@ -6,7 +6,9 @@ import (
 	"os"
 
 	"github.com/Ras96/clean-architecture-sample/2_interface/database"
+	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
 	"github.com/Ras96/clean-architecture-sample/3_infrastructure/migrate"
+	"github.com/Ras96/clean-architecture-sample/util/random"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -58,6 +60,16 @@ func NewSQLHandler() database.SQLHandler {
 	// Note: 既存のテーブルのカラムの削除などは行われないので手動で削除する
 	// https://gorm.io/ja_JP/docs/migration.html
 	conn.AutoMigrate(migrate.AllTables()...)
+
+	// 初期データ投入
+	l := 5
+	for i := 0; i < 10; i++ {
+		conn.Create(&model.User{
+			ID:    random.UUID(),
+			Name:  random.AlphaNumeric(l),
+			Email: random.Email(),
+		})
+	}
 
 	return &sqlHandler{conn}
 }

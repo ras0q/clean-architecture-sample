@@ -29,11 +29,9 @@ func Test_userService_GetAll(t *testing.T) {
 		{
 			name: "success",
 			want: []*domain.User{
-				{
-					ID:    random.UUID(),
-					Name:  random.AlphaNumeric(5),
-					Email: random.Email(),
-				},
+				random.User(),
+				random.User(),
+				random.User(),
 			},
 			setup: func(f fields, want []*domain.User) {
 				f.user.EXPECT().FindAll().Return(want, nil)
@@ -89,11 +87,7 @@ func Test_userService_GetByID(t *testing.T) {
 			args: args{
 				id: random.UUID(),
 			},
-			want: &domain.User{
-				ID:    random.UUID(),
-				Name:  random.AlphaNumeric(5),
-				Email: random.Email(),
-			},
+			want: random.User(),
 			setup: func(f fields, args args, want *domain.User) {
 				f.user.EXPECT().FindByID(args.id).Return(want, nil)
 			},

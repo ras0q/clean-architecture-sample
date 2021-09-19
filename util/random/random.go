@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"time"
 
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/gofrs/uuid"
 )
 
@@ -34,4 +35,9 @@ func UUID() uuid.UUID {
 
 func Error() error {
 	return errors.New(AlphaNumeric(defaultLen))
+}
+
+func User() *domain.User {
+	u := domain.NewUser(UUID(), AlphaNumeric(defaultLen), Email())
+	return &u
 }
