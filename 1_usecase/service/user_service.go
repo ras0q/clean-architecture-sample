@@ -5,14 +5,14 @@ package service
 import (
 	"fmt"
 
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/gofrs/uuid"
 )
 
 type UserService interface {
-	GetAll() ([]*model.User, error)
-	GetByID(id uuid.UUID) (*model.User, error)
+	GetAll() ([]*domain.User, error)
+	GetByID(id uuid.UUID) (*domain.User, error)
 	Register(user *repository.RegisteredUser) error
 }
 
@@ -25,7 +25,7 @@ func NewUserService(user repository.UserRepository) UserService {
 }
 
 // userService<struct>がUserService<interface>を満たすようにメソッドを定義する
-func (s *userService) GetAll() ([]*model.User, error) {
+func (s *userService) GetAll() ([]*domain.User, error) {
 	users, err := s.user.FindAll()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get users: %w", err)
@@ -34,7 +34,7 @@ func (s *userService) GetAll() ([]*model.User, error) {
 	return users, nil
 }
 
-func (s *userService) GetByID(id uuid.UUID) (*model.User, error) {
+func (s *userService) GetByID(id uuid.UUID) (*domain.User, error) {
 	user, err := s.user.FindByID(id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user by id: %w", err)

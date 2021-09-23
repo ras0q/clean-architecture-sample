@@ -54,8 +54,8 @@ func (h *userHandler) GetAll(c Context) error {
 	res := make([]*UserRes, 0, len(users))
 	for _, v := range users {
 		res = append(res, &UserRes{
-			ID:   v.ID,
-			Name: v.Name,
+			ID:   v.ID(),
+			Name: v.Name(),
 		})
 	}
 
@@ -79,10 +79,10 @@ func (h *userHandler) GetByID(c Context) error {
 
 	res := &UserDetailRes{
 		UserRes: UserRes{
-			ID:   user.ID,
-			Name: user.Name,
+			ID:   user.ID(),
+			Name: user.Name(),
 		},
-		Email: user.Email,
+		Email: user.Email(),
 	}
 
 	return c.JSON(http.StatusOK, res)

@@ -3,7 +3,7 @@
 package repository
 
 import (
-	"github.com/Ras96/clean-architecture-sample/0_domain/model"
+	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/gofrs/uuid"
 )
 
@@ -14,7 +14,7 @@ type RegisteredUser struct {
 }
 
 type UserRepository interface {
-	FindAll() ([]*model.User, error)
-	FindByID(id uuid.UUID) (*model.User, error)
+	FindAll() ([]*domain.User, error)
+	FindByID(id uuid.UUID) (*domain.User, error)
 	Register(user *RegisteredUser) error
 }
