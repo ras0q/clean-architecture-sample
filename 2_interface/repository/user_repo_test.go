@@ -20,7 +20,7 @@ var specificID = random.UUID()
 func Test_userRepository_FindAll(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		SQLHandler *mock_database.MockSQLHandler
+		sqlhandler *mock_database.MockSQLHandler
 	}
 	tests := []struct {
 		name      string
@@ -38,12 +38,12 @@ func Test_userRepository_FindAll(t *testing.T) {
 			},
 			setup: func(f fields, want []*domain.User) {
 				users := make([]*domain.User, 0)
-				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+				f.sqlhandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*users = want
 
-					return f.SQLHandler
+					return f.sqlhandler
 				})
-				f.SQLHandler.EXPECT().Error().Return(nil)
+				f.sqlhandler.EXPECT().Error().Return(nil)
 			},
 			assertion: assert.NoError,
 		},
@@ -52,12 +52,12 @@ func Test_userRepository_FindAll(t *testing.T) {
 			want: nil,
 			setup: func(f fields, want []*domain.User) {
 				users := make([]*domain.User, 0)
-				f.SQLHandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+				f.sqlhandler.EXPECT().Find(&users, gomock.Any()).DoAndReturn(func(users *[]*domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*users = want
 
-					return f.SQLHandler
+					return f.sqlhandler
 				})
-				f.SQLHandler.EXPECT().Error().Return(random.Error())
+				f.sqlhandler.EXPECT().Error().Return(random.Error())
 			},
 			assertion: assert.Error,
 		},
@@ -69,10 +69,10 @@ func Test_userRepository_FindAll(t *testing.T) {
 			// Setup mock
 			ctrl := gomock.NewController(t)
 			tt.fields = fields{
-				SQLHandler: mock_database.NewMockSQLHandler(ctrl),
+				sqlhandler: mock_database.NewMockSQLHandler(ctrl),
 			}
 			tt.setup(tt.fields, tt.want)
-			ur := NewUserRepository(tt.fields.SQLHandler)
+			ur := NewUserRepository(tt.fields.sqlhandler)
 			// Assertion
 			got, err := ur.FindAll()
 			tt.assertion(t, err, fmt.Sprintf("userRepository.FindAll()"))
@@ -84,7 +84,7 @@ func Test_userRepository_FindAll(t *testing.T) {
 func Test_userRepository_FindByID(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		SQLHandler *mock_database.MockSQLHandler
+		sqlhandler *mock_database.MockSQLHandler
 	}
 	type args struct {
 		id uuid.UUID
@@ -109,12 +109,12 @@ func Test_userRepository_FindByID(t *testing.T) {
 			}(), // TODO: もう少し簡潔に書きたい
 			setup: func(f fields, args args, want *domain.User) {
 				user := domain.NewUser(args.id, "", "")
-				f.SQLHandler.EXPECT().First(&user, gomock.Any()).DoAndReturn(func(user *domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
+				f.sqlhandler.EXPECT().First(&user, gomock.Any()).DoAndReturn(func(user *domain.User, any ...gomock.Matcher) *mock_database.MockSQLHandler {
 					*user = *want
 
-					return f.SQLHandler
+					return f.sqlhandler
 				})
-				f.SQLHandler.EXPECT().Error().Return(nil)
+				f.sqlhandler.EXPECT().Error().Return(nil)
 			},
 			assertion: assert.NoError,
 		},
@@ -126,8 +126,8 @@ func Test_userRepository_FindByID(t *testing.T) {
 			want: nil,
 			setup: func(f fields, args args, want *domain.User) {
 				user := domain.NewUser(specificID, "", "")
-				f.SQLHandler.EXPECT().First(&user, gomock.Any()).Return(f.SQLHandler)
-				f.SQLHandler.EXPECT().Error().Return(random.Error())
+				f.sqlhandler.EXPECT().First(&user, gomock.Any()).Return(f.sqlhandler)
+				f.sqlhandler.EXPECT().Error().Return(random.Error())
 			},
 			assertion: assert.Error,
 		},
@@ -139,10 +139,10 @@ func Test_userRepository_FindByID(t *testing.T) {
 			// Setup mock
 			ctrl := gomock.NewController(t)
 			tt.fields = fields{
-				SQLHandler: mock_database.NewMockSQLHandler(ctrl),
+				sqlhandler: mock_database.NewMockSQLHandler(ctrl),
 			}
 			tt.setup(tt.fields, tt.args, tt.want)
-			ur := NewUserRepository(tt.fields.SQLHandler)
+			ur := NewUserRepository(tt.fields.sqlhandler)
 			// Assertion
 			got, err := ur.FindByID(tt.args.id)
 			tt.assertion(t, err, fmt.Sprintf("userRepository.FindByID(%v)", tt.args.id))
@@ -154,7 +154,7 @@ func Test_userRepository_FindByID(t *testing.T) {
 func Test_userRepository_Register(t *testing.T) {
 	t.Parallel()
 	type fields struct {
-		SQLHandler *mock_database.MockSQLHandler
+		sqlhandler *mock_database.MockSQLHandler
 	}
 	type args struct {
 		user *repository.RegisteredUser
@@ -181,8 +181,8 @@ func Test_userRepository_Register(t *testing.T) {
 					Name:  args.user.Name,
 					Email: args.user.Email,
 				}
-				f.SQLHandler.EXPECT().Create(&u).Return(f.SQLHandler)
-				f.SQLHandler.EXPECT().Error().Return(nil)
+				f.sqlhandler.EXPECT().Create(&u).Return(f.sqlhandler)
+				f.sqlhandler.EXPECT().Error().Return(nil)
 			},
 			assertion: assert.NoError,
 		},
@@ -201,8 +201,8 @@ func Test_userRepository_Register(t *testing.T) {
 					Name:  args.user.Name,
 					Email: args.user.Email,
 				}
-				f.SQLHandler.EXPECT().Create(&u).Return(f.SQLHandler)
-				f.SQLHandler.EXPECT().Error().Return(random.Error())
+				f.sqlhandler.EXPECT().Create(&u).Return(f.sqlhandler)
+				f.sqlhandler.EXPECT().Error().Return(random.Error())
 			},
 			assertion: assert.Error,
 		},
@@ -214,10 +214,10 @@ func Test_userRepository_Register(t *testing.T) {
 			// Setup mock
 			ctrl := gomock.NewController(t)
 			tt.fields = fields{
-				SQLHandler: mock_database.NewMockSQLHandler(ctrl),
+				sqlhandler: mock_database.NewMockSQLHandler(ctrl),
 			}
 			tt.setup(tt.fields, tt.args)
-			ur := NewUserRepository(tt.fields.SQLHandler)
+			ur := NewUserRepository(tt.fields.sqlhandler)
 			// Assertion
 			tt.assertion(t, ur.Register(tt.args.user), fmt.Sprintf("userRepository.Register(%v)", tt.args.user))
 		})
