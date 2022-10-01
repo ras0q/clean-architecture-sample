@@ -9,7 +9,7 @@ import (
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
 	"github.com/Ras96/clean-architecture-sample/util/random"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -65,7 +65,7 @@ func (h *userHandler) GetAll(c Context) error {
 // GetByID GET /users/:id
 func (h *userHandler) GetByID(c Context) error {
 	idstr := c.Param("id")
-	id, err := uuid.FromString(idstr)
+	id, err := uuid.Parse(idstr)
 	if err != nil || id == uuid.Nil {
 		return c.JSON(http.StatusBadRequest, err.Error()) // invalid uuid
 	}

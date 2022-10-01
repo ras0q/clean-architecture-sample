@@ -5,7 +5,7 @@ import (
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/2_interface/database"
 	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 type userRepository struct {

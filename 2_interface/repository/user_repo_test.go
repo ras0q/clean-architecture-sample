@@ -9,8 +9,8 @@ import (
 	"github.com/Ras96/clean-architecture-sample/2_interface/database/mock_database"
 	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
 	"github.com/Ras96/clean-architecture-sample/util/random"
-	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 

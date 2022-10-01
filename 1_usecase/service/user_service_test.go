@@ -8,8 +8,8 @@ import (
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository/mock_repository"
 	"github.com/Ras96/clean-architecture-sample/util/random"
-	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )

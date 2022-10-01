@@ -10,8 +10,8 @@ import (
 	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
 	"github.com/Ras96/clean-architecture-sample/2_interface/handler/mock_handler"
 	"github.com/Ras96/clean-architecture-sample/util/random"
-	"github.com/gofrs/uuid"
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )
@@ -120,7 +120,7 @@ func Test_userHandler_GetByID(t *testing.T) {
 			setup: func(f fields, args args) {
 				idstr := random.AlphaNumeric(32)
 				args.c.EXPECT().Param("id").Return(idstr)
-				_, err := uuid.FromString(idstr)
+				_, err := uuid.Parse(idstr)
 				args.c.EXPECT().JSON(http.StatusBadRequest, err.Error()).Return(nil)
 			},
 			assertion: assert.NoError,

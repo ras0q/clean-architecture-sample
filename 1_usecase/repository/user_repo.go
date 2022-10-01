@@ -4,7 +4,7 @@ package repository
 
 import (
 	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 type RegisteredUser struct {

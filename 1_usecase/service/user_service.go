@@ -7,7 +7,7 @@ import (
 
 	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 type UserService interface {

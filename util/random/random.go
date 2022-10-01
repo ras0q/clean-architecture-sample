@@ -7,7 +7,7 @@ import (
 	"time"
 
 	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	"github.com/gofrs/uuid"
+	"github.com/google/uuid"
 )
 
 var (
@@ -30,7 +30,7 @@ func Email() string {
 }
 
 func UUID() uuid.UUID {
-	return uuid.Must(uuid.NewV4())
+	return uuid.New()
 }
 
 func Error() error {

@@ -4,8 +4,8 @@ go 1.18
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	github.com/gofrs/uuid v4.3.0+incompatible
 	github.com/golang/mock v1.6.0
+	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
 	github.com/labstack/echo/v4 v4.9.0
 	github.com/stretchr/testify v1.8.0
