@@ -1,11 +1,11 @@
 package repository
 
 import (
-	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
-	"github.com/Ras96/clean-architecture-sample/2_interface/database"
-	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
 	"github.com/google/uuid"
+	domain "github.com/ras0q/clean-architecture-sample/0_domain"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/repository"
+	"github.com/ras0q/clean-architecture-sample/2_interface/database"
+	"github.com/ras0q/clean-architecture-sample/2_interface/repository/model"
 )
 
 type userRepository struct {

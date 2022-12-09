@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	infrastructure "github.com/Ras96/clean-architecture-sample/3_infrastructure"
-	alt "github.com/Ras96/clean-architecture-sample/3_infrastructure_alt"
+	infrastructure "github.com/ras0q/clean-architecture-sample/3_infrastructure"
+	alt "github.com/ras0q/clean-architecture-sample/3_infrastructure_alt"
 )
 
 func main() {

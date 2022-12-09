@@ -3,9 +3,9 @@ package handler_test
 import (
 	"testing"
 
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler/mock_handler"
 	"github.com/golang/mock/gomock"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler/mock_handler"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,9 +22,9 @@ func TestNewAPI(t *testing.T) {
 		setup func(args args, want *handler.API)
 	}{
 		{
-			name:  "success",
-			args:  args{},
-			want:  handler.API{},
+			name: "success",
+			args: args{},
+			want: handler.API{},
 			setup: func(args args, want *handler.API) {
 				want.Ping = args.ping
 				want.User = args.user

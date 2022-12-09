@@ -1,6 +1,6 @@
 # clean-architecture-sample
 
-[![codecov](https://codecov.io/gh/Ras96/clean-architecture-sample/branch/main/graph/badge.svg?token=EEQK7B0DQN)](https://codecov.io/gh/Ras96/clean-architecture-sample)
+[![codecov](https://codecov.io/gh/ras0q/clean-architecture-sample/branch/main/graph/badge.svg?token=EEQK7B0DQN)](https://codecov.io/gh/ras0q/clean-architecture-sample)
 
 ![architecture](./architecture.png)
 

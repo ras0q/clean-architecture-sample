@@ -2,7 +2,7 @@ FROM golang:8.0-alpine
 
 ENV CGO_ENABLED=0
 
-WORKDIR /go/src/github.com/Ras96/clean-architecture-sample
+WORKDIR /go/src/github.com/ras0q/clean-architecture-sample
 COPY . .
 
 RUN apk upgrade --update && \

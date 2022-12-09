@@ -5,13 +5,13 @@ import (
 	"net/http"
 	"testing"
 
-	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service/mock_service"
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler/mock_handler"
-	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/golang/mock/gomock"
 	"github.com/google/uuid"
+	domain "github.com/ras0q/clean-architecture-sample/0_domain"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/service/mock_service"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler/mock_handler"
+	"github.com/ras0q/clean-architecture-sample/util/random"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 )

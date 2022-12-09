@@ -1,4 +1,4 @@
-module github.com/Ras96/clean-architecture-sample
+module github.com/ras0q/clean-architecture-sample
 
 go 1.18
 

@@ -7,10 +7,10 @@ package mock_service
 import (
 	reflect "reflect"
 
-	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	repository "github.com/Ras96/clean-architecture-sample/1_usecase/repository"
-	uuid "github.com/google/uuid"
 	gomock "github.com/golang/mock/gomock"
+	uuid "github.com/google/uuid"
+	domain "github.com/ras0q/clean-architecture-sample/0_domain"
+	repository "github.com/ras0q/clean-architecture-sample/1_usecase/repository"
 )
 
 // MockUserService is a mock of UserService interface.

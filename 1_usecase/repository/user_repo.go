@@ -3,8 +3,8 @@
 package repository
 
 import (
-	domain "github.com/Ras96/clean-architecture-sample/0_domain"
 	"github.com/google/uuid"
+	domain "github.com/ras0q/clean-architecture-sample/0_domain"
 )
 
 type RegisteredUser struct {

@@ -6,10 +6,10 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
-	"github.com/Ras96/clean-architecture-sample/util/random"
 	"github.com/google/uuid"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/repository"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/service"
+	"github.com/ras0q/clean-architecture-sample/util/random"
 	"gorm.io/gorm"
 )
 

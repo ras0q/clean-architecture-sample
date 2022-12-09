@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/Ras96/clean-architecture-sample/2_interface/database"
-	"github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
-	"github.com/Ras96/clean-architecture-sample/3_infrastructure/migrate"
-	"github.com/Ras96/clean-architecture-sample/util/random"
+	"github.com/ras0q/clean-architecture-sample/2_interface/database"
+	"github.com/ras0q/clean-architecture-sample/2_interface/repository/model"
+	"github.com/ras0q/clean-architecture-sample/3_infrastructure/migrate"
+	"github.com/ras0q/clean-architecture-sample/util/random"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

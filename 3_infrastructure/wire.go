@@ -4,10 +4,10 @@
 package infrastructure
 
 import (
-	"github.com/Ras96/clean-architecture-sample/1_usecase/service"
-	"github.com/Ras96/clean-architecture-sample/2_interface/repository"
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
 	"github.com/google/wire"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/service"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler"
+	"github.com/ras0q/clean-architecture-sample/2_interface/repository"
 )
 
 // Note: エンドポイントを増やした時はここに追加する

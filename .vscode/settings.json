@@ -2,5 +2,5 @@
   "gopls": {
     "build.buildFlags": ["-tags=-wireinject"]
   },
-  "go.generateTestsFlags": ["-i", "-parallel", "-template", "ras96"],
+  "go.generateTestsFlags": ["-i", "-parallel", "-template", "ras0q"]
 }

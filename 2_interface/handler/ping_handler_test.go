@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler/mock_handler"
 	"github.com/golang/mock/gomock"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler/mock_handler"
 	"github.com/stretchr/testify/assert"
 )
 

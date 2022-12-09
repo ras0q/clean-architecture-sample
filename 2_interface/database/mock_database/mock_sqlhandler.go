@@ -7,8 +7,8 @@ package mock_database
 import (
 	reflect "reflect"
 
-	database "github.com/Ras96/clean-architecture-sample/2_interface/database"
 	gomock "github.com/golang/mock/gomock"
+	database "github.com/ras0q/clean-architecture-sample/2_interface/database"
 )
 
 // MockSQLHandler is a mock of SQLHandler interface.

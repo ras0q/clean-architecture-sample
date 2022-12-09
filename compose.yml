@@ -10,7 +10,7 @@ services:
       DB_HOST: clean-architecture-sample_db_1
     restart: always
     volumes:
-      - ./:/go/src/github.com/Ras96/clean-architecture-sample
+      - ./:/go/src/github.com/ras0q/clean-architecture-sample
     ports:
       - "8080:8080"
     depends_on:

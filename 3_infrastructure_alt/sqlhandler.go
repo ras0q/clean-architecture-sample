@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Ras96/clean-architecture-sample/2_interface/database"
+	"github.com/ras0q/clean-architecture-sample/2_interface/database"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

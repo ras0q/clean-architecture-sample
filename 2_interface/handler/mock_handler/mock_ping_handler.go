@@ -7,8 +7,8 @@ package mock_handler
 import (
 	reflect "reflect"
 
-	handler "github.com/Ras96/clean-architecture-sample/2_interface/handler"
 	gomock "github.com/golang/mock/gomock"
+	handler "github.com/ras0q/clean-architecture-sample/2_interface/handler"
 )
 
 // MockPingHandler is a mock of PingHandler interface.

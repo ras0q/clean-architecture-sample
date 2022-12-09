@@ -5,9 +5,9 @@ package service
 import (
 	"fmt"
 
-	domain "github.com/Ras96/clean-architecture-sample/0_domain"
-	"github.com/Ras96/clean-architecture-sample/1_usecase/repository"
 	"github.com/google/uuid"
+	domain "github.com/ras0q/clean-architecture-sample/0_domain"
+	"github.com/ras0q/clean-architecture-sample/1_usecase/repository"
 )
 
 type UserService interface {

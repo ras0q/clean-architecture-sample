@@ -1,8 +1,8 @@
 package alt
 
 import (
-	"github.com/Ras96/clean-architecture-sample/2_interface/handler"
 	"github.com/gin-gonic/gin"
+	"github.com/ras0q/clean-architecture-sample/2_interface/handler"
 )
 
 type context struct {

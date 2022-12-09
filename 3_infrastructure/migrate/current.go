@@ -1,6 +1,6 @@
 package migrate
 
-import "github.com/Ras96/clean-architecture-sample/2_interface/repository/model"
+import "github.com/ras0q/clean-architecture-sample/2_interface/repository/model"
 
 func AllTables() []interface{} {
 	return []interface{}{
